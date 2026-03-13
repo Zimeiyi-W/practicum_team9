@@ -1,0 +1,31 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Construction Cost Estimation System — Python dependencies
+# ─────────────────────────────────────────────────────────────────────────────
+#
+# Install with:
+#   pip install -r requirements.txt
+#
+# Optional extras (not required for core functionality):
+#   pip install psycopg2-binary   # PostgreSQL loader (etl/loaders.py)
+#   pip install pdfplumber pypdf  # PDF extraction (pipeline/document_extractor.py)
+
+# ── Core ML ──────────────────────────────────────────────────────────────────
+scikit-learn>=1.3.0          # HDBSCAN (sklearn.cluster.HDBSCAN), RandomForest, etc.
+lightgbm>=4.0.0              # ACFMarketBasketEngine (LGBMRegressor)
+joblib>=1.3.0                # Model serialization (save / load)
+numpy>=1.24.0
+pandas>=2.0.0
+scipy>=1.10.0                # IQR outlier detection in ACFMarketBasketEngine
+
+# ── LLM / API ────────────────────────────────────────────────────────────────
+anthropic>=0.84.0            # EstimationPipeline, DocumentExtractor, ReportGenerator
+
+# ── Testing ───────────────────────────────────────────────────────────────────
+pytest>=8.0.0
+
+# ── Optional: PDF extraction ─────────────────────────────────────────────────
+# pdfplumber>=0.10.0
+# pypdf>=3.0.0
+
+# ── Optional: PostgreSQL loader ───────────────────────────────────────────────
+# psycopg2-binary>=2.9.0
