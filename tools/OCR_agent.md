@@ -63,7 +63,25 @@ When possible, map extracted content into these canonical field names from the p
 - `ciqs_complexity_category`
 - `phase_description`
 
-The output should support downstream conversion into `RawProjectRecord`.
+The output must be directly compatible with the `RawProjectRecord` schema.
+Fields returned in `project_record_partial` should match the schema structure
+and be usable by downstream ETL transformation functions without renaming.
+
+---
+
+## Schema Mapping Rules
+
+When populating schema fields, follow these rules:
+
+- Use exact field names from the canonical schema (`RawProjectRecord`)
+- Do not rename fields or introduce new keys
+- Do not infer values beyond what is explicitly supported by the document
+- Normalize values when possible:
+  - `project_state`: 2-letter uppercase code (e.g., "TX")
+  - `project_sq_ft`: numeric (float), remove commas
+  - `official_budget_range`: match known category strings if present
+- If a value is uncertain or ambiguous, return `null`
+- Do not fabricate or guess missing values
 
 ---
 
@@ -105,6 +123,27 @@ Return a structured object with this shape:
   }
 }
 ```
+
+---
+
+## Downstream Usage Contract
+
+The `project_record_partial` output is intended to be passed into
+downstream ETL transformation functions (e.g., `raw_to_regression_simple`).
+
+This agent does not:
+- complete all required schema fields
+- perform feature engineering
+- apply defaults required for modeling
+
+Those responsibilities are handled by the ETL pipeline.
+
+The agent’s role is limited to:
+- extracting document text
+- mapping recoverable fields into the canonical schema
+- preserving uncertainty via null values
+
+---
 
 ## Allowed values:
 - `extraction_method`: `native_pdf` or `ocr_fallback`
