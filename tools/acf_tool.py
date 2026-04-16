@@ -44,7 +44,7 @@ def get_acf_factor(
             "model_version": "acf_inflation_v1"
         }
     """
-    from models.acf import ACFEngine
+    from models.ACF_Engine import ACFEngine
     from etl.feature_engineering import assign_nearest_acf
     import numpy as np
 
